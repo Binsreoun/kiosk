@@ -1,6 +1,9 @@
-package main.java;
+package main.java.food;
 
-public class Menu {
+import java.util.ArrayList;
+import java.util.stream.Collectors;
+
+public class Menu{
     private String name;
     private String explanation;
 
@@ -25,6 +28,7 @@ public class Menu {
     public void setName(String name) {
         this.name = name;
     }
+
 
 
 }
