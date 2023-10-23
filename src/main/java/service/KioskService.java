@@ -64,7 +64,9 @@ public class KioskService {
             this.order(order);
 
         } else if (orderNum == Title.numder + 1) {
-
+            text.orderCancel();
+            int cancel = sc.nextInt();
+            this.orderCancel(cancel,order);
         } else if (orderNum == 0) {
             text.total(order);
             int reverse = sc.nextInt();
@@ -157,6 +159,16 @@ public class KioskService {
         }
     }
 
+    public void orderCancel(int num,Order order) {
+        if (num == 1) {
+            order.reset();
+            text.orderCancelReal();
+        } else if (num == 2) {
+            text.reverseMenuPan();
+        }else {
+            text.numberMistake();
+        }
+    }
     //뒤로가기
     public void reverse(int reverse) {
         if (reverse != 1) {
@@ -175,7 +187,7 @@ public class KioskService {
             order.reset();
             this.matrixTime(3000);
         } else if (menuNum3 == 2) {
-
+            text.reverseMenuPan();
         } else if (menuNum3 == 3) {
             order.reset();
             text.cancel();

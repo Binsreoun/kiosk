@@ -118,4 +118,19 @@ public class ServiceText {
     public void closed() {
         System.out.println("영업이 종료되었습니다.");
     }
+
+    public void orderCancel(){
+        System.out.println("진행하던 주문을 취소하시겠습니까?");
+        System.out.println("1. 확인 \t\t\t 2. 취소");
+    }
+
+    public void orderCancelReal(){
+        System.out.println("진행하던 주문이 취소되었습니다.");
+        System.out.println();
+    }
+
+    public void reverseMenuPan(){
+        System.out.println("매뉴화면으로 되돌아 갑니다");
+        System.out.println();
+    }
 }
