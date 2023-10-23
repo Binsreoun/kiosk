@@ -1,7 +1,6 @@
 package main.java.food;
 
-
-public class Food extends Menu{
+public class Food extends Menu {
     private double price;
 
     private double largePrice;

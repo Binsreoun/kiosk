@@ -7,7 +7,7 @@ public class OrderFood extends Menu {
     private int count = 1;
     private double realPrice;
 
-    public OrderFood(String name,double realPrice ,String explanation) {
+    public OrderFood(String name, double realPrice, String explanation) {
         super(name, explanation);
         this.realPrice = realPrice;
     }

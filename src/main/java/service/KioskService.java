@@ -14,7 +14,7 @@ public class KioskService {
     Scanner sc = new Scanner(System.in);
 
     //메뉴판 생성
-    public void MenuPanMaking(ArrayList<Title> foodList) {
+    public void menuPanMaking(ArrayList<Title> foodList) {
         foodList.add(new Title("hamburger", "한입에 다먹기 어려울껄~!"));
         foodList.add(new Title("pizza", "한조각 다먹기 어려울껄~!"));
         foodList.add(new Title("chicken", "닭다리 다먹기 어려울껄~!"));
@@ -45,23 +45,23 @@ public class KioskService {
     }
 
     //주문시작
-    public void KioskStart(ArrayList<Title> foodList, Order order) {
-        while (this.end == false) {
-            text.MenuPan(foodList);
+    public void kioskStart(ArrayList<Title> foodList, Order order) {
+        while (!this.end) {
+            text.menuPan(foodList);
             int orderNum = sc.nextInt();
-            this.ChoiceMenu(orderNum, foodList, order);
+            this.choiceMenu(orderNum, foodList, order);
         }
     }
 
     //메뉴선택
-    public void ChoiceMenu(int orderNum, ArrayList<Title> foodList, Order order) {
+    public void choiceMenu(int orderNum, ArrayList<Title> foodList, Order order) {
         if (0 < orderNum && orderNum < Title.numder) {
             text.foodMenu(foodList.get(orderNum - 1));
             int menuNum = sc.nextInt();
-            this.ChoiceMenuCheck(orderNum, menuNum, foodList, order);
+            this.choiceMenuCheck(orderNum, menuNum, foodList, order);
 
         } else if (orderNum == Title.numder) {
-            this.Order(order);
+            this.order(order);
 
         } else if (orderNum == Title.numder + 1) {
 
@@ -70,80 +70,80 @@ public class KioskService {
             int reverse = sc.nextInt();
             this.reverse(reverse);
         } else if (orderNum == 777) {
-            text.Closed();
+            text.closed();
             this.end = true;
         } else {
-            text.NumberMistake();
+            text.numberMistake();
         }
     }
 
-    public void reverse(int reverse) {
-        if (reverse != 1) {
-            text.NumberMistake();
-        }
-    }
-
-    public void ChoiceMenuCheck(int orderNum, int menuNum, ArrayList<Title> foodList, Order order) {
-        if (0<menuNum && menuNum < foodList.get(orderNum - 1).getMenuNumder()) {
+    //상품선택
+    public void choiceMenuCheck(int orderNum, int menuNum, ArrayList<Title> foodList, Order order) {
+        if (0 < menuNum && menuNum < foodList.get(orderNum - 1).getMenuNumder()) {
             text.foodPikMenu(menuNum - 1, foodList.get(orderNum - 1).getMenusList());
             int menuNum2 = sc.nextInt();
-            this.ChoiceSize(orderNum, menuNum, menuNum2, foodList, order);
+            this.choiceSize(orderNum, menuNum, menuNum2, foodList, order);
         } else {
-            text.NumberMistake();
+            text.numberMistake();
         }
     }
 
-    public void ChoiceSize(int orderNum, int menuNum, int menuNum2, ArrayList<Title> foodList, Order order) {
+    //사이즈선택
+    public void choiceSize(int orderNum, int menuNum, int menuNum2, ArrayList<Title> foodList, Order order) {
         if (menuNum2 == 1) {
             text.foodPikMenu2(menuNum2, menuNum, foodList.get(orderNum - 1).getMenusList());
-            text.AddMenuQuestion();
+            text.addMenuQuestion();
             int menuNum3 = sc.nextInt();
-            this.ChoiceSizeCheck(orderNum, menuNum, "small", menuNum3, foodList, order);
+            this.choiceSizeCheck(orderNum, menuNum, "small", menuNum3, foodList, order);
         } else if (menuNum2 == 2) {
             text.foodPikMenu2(menuNum2, menuNum, foodList.get(orderNum - 1).getMenusList());
-            text.AddMenuQuestion();
+            text.addMenuQuestion();
             int menuNum3 = sc.nextInt();
-            this.ChoiceSizeCheck(orderNum, menuNum, "large", menuNum3, foodList, order);
+            this.choiceSizeCheck(orderNum, menuNum, "large", menuNum3, foodList, order);
         } else {
-            text.NumberMistake();
+            text.numberMistake();
         }
     }
 
-    public void ChoiceSizeCheck(int orderNum, int menuNum, String size, int menuNum3, ArrayList<Title> foodList, Order order) {
+    //사이즈확인
+    public void choiceSizeCheck(int orderNum, int menuNum, String size, int menuNum3, ArrayList<Title> foodList, Order order) {
         if (menuNum3 == 1) {
-            this.MenuCount(orderNum, menuNum, size, foodList, order);
-            text.AddMenu();
+            this.menuCount(orderNum, menuNum, size, foodList, order);
+            text.addMenu();
         } else if (menuNum3 == 2) {
-            text.Cancel();
+            text.cancel();
         } else {
-            text.NumberMistake();
+            text.numberMistake();
         }
     }
 
-
-    public void MenuCount(int orderNum, int menuNum, String size, ArrayList<Title> foodList, Order order) {
-        if (order.getOrder().isEmpty()){
-            this.NotCount(orderNum, menuNum, size, foodList, order);
-        }else{
-            this.AddOrderFood(orderNum, menuNum, size, foodList, order);
+    //주문확인
+    public void menuCount(int orderNum, int menuNum, String size, ArrayList<Title> foodList, Order order) {
+        if (order.getOrder().isEmpty()) {
+            this.notCount(orderNum, menuNum, size, foodList, order);
+        } else {
+            this.addOrderFood(orderNum, menuNum, size, foodList, order);
         }
     }
 
-    public void AddOrderFood(int orderNum, int menuNum, String size, ArrayList<Title> foodList, Order order){
-            int b = -1;
-            for (int i = 0; i<order.getOrder().size();i++){
-                if (Objects.equals(order.getOrder().get(i).getName(), foodList.get(orderNum - 1).getMenus(menuNum - 1).getName()) && Objects.equals(order.getOrder().get(i).getSize(), size)) {
-                    b = i;
-                }
+    //중복체크 및 갯수새기
+    public void addOrderFood(int orderNum, int menuNum, String size, ArrayList<Title> foodList, Order order) {
+        int cuplicateCheck = -1;
+        for (int i = 0; i < order.getOrder().size(); i++) {
+            if (Objects.equals(order.getOrder().get(i).getName(), foodList.get(orderNum - 1).getMenus(menuNum - 1).getName())
+                    && Objects.equals(order.getOrder().get(i).getSize(), size)) {
+                cuplicateCheck = i;
             }
-            if (b == -1){
-                this.NotCount(orderNum, menuNum, size, foodList, order);
-            }else {
-                order.getOrder().get(b).setCount();
-            }
+        }
+        if (cuplicateCheck == -1) {
+            this.notCount(orderNum, menuNum, size, foodList, order);
+        } else {
+            order.getOrder().get(cuplicateCheck).setCount();
+        }
     }
 
-    public void NotCount(int orderNum, int menuNum, String size, ArrayList<Title> foodList, Order order) {
+    //주문담기
+    public void notCount(int orderNum, int menuNum, String size, ArrayList<Title> foodList, Order order) {
         if (Objects.equals(size, "small")) {
             order.setOrderList(new OrderFood(foodList.get(orderNum - 1).getMenus(menuNum - 1).getName(),
                     foodList.get(orderNum - 1).getMenus(menuNum - 1).getPrice(),
@@ -157,32 +157,40 @@ public class KioskService {
         }
     }
 
+    //뒤로가기
+    public void reverse(int reverse) {
+        if (reverse != 1) {
+            text.numberMistake();
+        }
+    }
 
-    public void MatrixTime(int delayTime) {
+    //장바구니
+    public void order(Order order) {
+        text.getOrderList(order.getOrder());
+        text.getTotalList(order);
+        text.orderMenuQuestion();
+        int menuNum3 = sc.nextInt();
+        if (menuNum3 == 1) {
+            text.orderMenu(order.getSeq());
+            order.reset();
+            this.matrixTime(3000);
+        } else if (menuNum3 == 2) {
+
+        } else if (menuNum3 == 3) {
+            order.reset();
+            text.cancel();
+        } else {
+            text.numberMistake();
+        }
+    }
+
+    //시간지연
+    public void matrixTime(int delayTime) {
         long saveTime = System.currentTimeMillis();
         long currTime = 0;
 
         while (currTime - saveTime < delayTime) {
             currTime = System.currentTimeMillis();
-        }
-    }
-
-    public void Order(Order order) {
-        text.getOrderList(order.getOrder());
-        text.getTotalList(order);
-        text.OrderMenuQuestion();
-        int menuNum3 = sc.nextInt();
-        if (menuNum3 == 1) {
-            text.OrderMenu(order.getSeq());
-            order.reset();
-            this.MatrixTime(3000);
-        } else if (menuNum3 == 2) {
-
-        } else if (menuNum3 == 3) {
-            order.reset();
-            text.Cancel();
-        } else {
-            text.NumberMistake();
         }
     }
 
