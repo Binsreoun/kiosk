@@ -8,12 +8,9 @@ import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args)  {
-
         ArrayList<Title> foodList = new ArrayList<>();
         Order order = new Order();
-
         KioskService kioskService = new KioskService();
-
         kioskService.MenuPanMaking(foodList);
         kioskService.KioskStart(foodList,order);
     }

@@ -13,6 +13,7 @@ public class KioskService {
     ServiceText text = new ServiceText();
     Scanner sc = new Scanner(System.in);
 
+    //메뉴판 생성
     public void MenuPanMaking(ArrayList<Title> foodList) {
         foodList.add(new Title("hamburger", "한입에 다먹기 어려울껄~!"));
         foodList.add(new Title("pizza", "한조각 다먹기 어려울껄~!"));
@@ -43,6 +44,7 @@ public class KioskService {
         foodList.get(5).setMenus("zero sprite", 2000, "이왕먹을꺼 맛있는거 먹지..");
     }
 
+    //주문시작
     public void KioskStart(ArrayList<Title> foodList, Order order) {
         while (this.end == false) {
             text.MenuPan(foodList);
@@ -51,11 +53,11 @@ public class KioskService {
         }
     }
 
+    //메뉴선택
     public void ChoiceMenu(int orderNum, ArrayList<Title> foodList, Order order) {
         if (0 < orderNum && orderNum < Title.numder) {
             text.foodMenu(foodList.get(orderNum - 1));
             int menuNum = sc.nextInt();
-            this.MatrixTime(1000);
             this.ChoiceMenuCheck(orderNum, menuNum, foodList, order);
 
         } else if (orderNum == Title.numder) {
@@ -64,10 +66,8 @@ public class KioskService {
         } else if (orderNum == Title.numder + 1) {
 
         } else if (orderNum == 0) {
-            //총얼마 팔았냐
             text.total(order);
             int reverse = sc.nextInt();
-            this.MatrixTime(1000);
             this.reverse(reverse);
         } else if (orderNum == 777) {
             text.Closed();
@@ -84,9 +84,8 @@ public class KioskService {
     }
 
     public void ChoiceMenuCheck(int orderNum, int menuNum, ArrayList<Title> foodList, Order order) {
-        if (menuNum < foodList.get(orderNum - 1).getMenuNumder()) {
+        if (0<menuNum && menuNum < foodList.get(orderNum - 1).getMenuNumder()) {
             text.foodPikMenu(menuNum - 1, foodList.get(orderNum - 1).getMenusList());
-
             int menuNum2 = sc.nextInt();
             this.ChoiceSize(orderNum, menuNum, menuNum2, foodList, order);
         } else {
@@ -96,12 +95,12 @@ public class KioskService {
 
     public void ChoiceSize(int orderNum, int menuNum, int menuNum2, ArrayList<Title> foodList, Order order) {
         if (menuNum2 == 1) {
-            text.foodPikMenu2(menuNum2, foodList.get(orderNum - 1).getMenusList());
+            text.foodPikMenu2(menuNum2, menuNum, foodList.get(orderNum - 1).getMenusList());
             text.AddMenuQuestion();
             int menuNum3 = sc.nextInt();
             this.ChoiceSizeCheck(orderNum, menuNum, "small", menuNum3, foodList, order);
         } else if (menuNum2 == 2) {
-            text.foodPikMenu2(menuNum2, foodList.get(orderNum - 1).getMenusList());
+            text.foodPikMenu2(menuNum2, menuNum, foodList.get(orderNum - 1).getMenusList());
             text.AddMenuQuestion();
             int menuNum3 = sc.nextInt();
             this.ChoiceSizeCheck(orderNum, menuNum, "large", menuNum3, foodList, order);
@@ -112,7 +111,7 @@ public class KioskService {
 
     public void ChoiceSizeCheck(int orderNum, int menuNum, String size, int menuNum3, ArrayList<Title> foodList, Order order) {
         if (menuNum3 == 1) {
-            this.MenuCount(orderNum, menuNum, size, menuNum3, foodList, order);
+            this.MenuCount(orderNum, menuNum, size, foodList, order);
             text.AddMenu();
         } else if (menuNum3 == 2) {
             text.Cancel();
@@ -121,30 +120,43 @@ public class KioskService {
         }
     }
 
-    public void MenuCount(int orderNum, int menuNum, String size, int menuNum3, ArrayList<Title> foodList, Order order) {
-        boolean change = false;
-        for (OrderFood a : order.getOrder()) {
-            change = this.CountCheck(a, orderNum, menuNum, size, foodList);
+
+    public void MenuCount(int orderNum, int menuNum, String size, ArrayList<Title> foodList, Order order) {
+        if (order.getOrder().isEmpty()){
+            this.NotCount(orderNum, menuNum, size, foodList, order);
+        }else{
+            this.AddOrderFood(orderNum, menuNum, size, foodList, order);
         }
-        this.NotCount(change, orderNum, menuNum, size, menuNum3, foodList, order);
     }
 
-    public Boolean CountCheck(OrderFood a, int orderNum, int menuNum, String size, ArrayList<Title> foodList) {
-        if (Objects.equals(a.getName(), foodList.get(orderNum - 1).getMenus(menuNum - 1).getName()) && Objects.equals(a.getSize(), size)) {
-            a.setCount();
-            return true;
-        }
-        return false;
+    public void AddOrderFood(int orderNum, int menuNum, String size, ArrayList<Title> foodList, Order order){
+            int b = -1;
+            for (int i = 0; i<order.getOrder().size();i++){
+                if (Objects.equals(order.getOrder().get(i).getName(), foodList.get(orderNum - 1).getMenus(menuNum - 1).getName()) && Objects.equals(order.getOrder().get(i).getSize(), size)) {
+                    b = i;
+                }
+            }
+            if (b == -1){
+                this.NotCount(orderNum, menuNum, size, foodList, order);
+            }else {
+                order.getOrder().get(b).setCount();
+            }
     }
 
-    public void NotCount(boolean change, int orderNum, int menuNum, String size, int menuNum3, ArrayList<Title> foodList, Order order) {
-        if (change == false) {
+    public void NotCount(int orderNum, int menuNum, String size, ArrayList<Title> foodList, Order order) {
+        if (Objects.equals(size, "small")) {
             order.setOrderList(new OrderFood(foodList.get(orderNum - 1).getMenus(menuNum - 1).getName(),
                     foodList.get(orderNum - 1).getMenus(menuNum - 1).getPrice(),
                     foodList.get(orderNum - 1).getMenus(menuNum - 1).getExplanation()
             ), size);
+        } else if (Objects.equals(size, "large")) {
+            order.setOrderList(new OrderFood(foodList.get(orderNum - 1).getMenus(menuNum - 1).getName(),
+                    foodList.get(orderNum - 1).getMenus(menuNum - 1).getLargePrice(),
+                    foodList.get(orderNum - 1).getMenus(menuNum - 1).getExplanation()
+            ), size);
         }
     }
+
 
     public void MatrixTime(int delayTime) {
         long saveTime = System.currentTimeMillis();

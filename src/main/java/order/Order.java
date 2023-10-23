@@ -1,22 +1,21 @@
 package main.java.order;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-
 
 public class Order {
     ArrayList<OrderFood> OrderList = new ArrayList<>();
     private int seq = 1;
-
     private int menuCount = 0;
+    private int totalCount = 0;
     ArrayList<OrderFood> OrderListTotal = new ArrayList<>();
 
     public void setOrderList(OrderFood orderFood, String size) {
         this.OrderList.add(orderFood);
-        this.OrderListTotal.add(orderFood);
         menuCount++;
         OrderList.get(menuCount-1).setSize(size);
+        this.OrderListTotal.add(orderFood);
+        totalCount++;
+        OrderListTotal.get(totalCount-1).setSize(size);
     }
 
     public double price(){

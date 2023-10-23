@@ -14,7 +14,8 @@ public class Title extends Menu {
     }
 
     public void setMenus(String name, double price, String explanation) {
-        this.menus.add(new Food(name, price, explanation, this.menuNumder++));
+        this.menus.add(new Food(name, price, explanation));
+        this.menuNumder++;
     }
 
     public Food getMenus(int numder) {

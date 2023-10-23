@@ -42,11 +42,11 @@ public class ServiceText {
     }
 
 
-    public void foodPikMenu2(int num,ArrayList<Food> menus) {
-        if (num == 1) {
-            System.out.println("\"" + menus.get(num).getName() + "(small)" + "\t" + menus.get(num).getPrice() + "\t" + menus.get(num).getExplanation() + "\"");
-        } else if (num == 2) {
-            System.out.println("\"" + menus.get(num).getName() + "(large)" + "\t" + (menus.get(num).getPrice() + 2000) + "\t" + menus.get(num).getExplanation() + "\"");
+    public void foodPikMenu2(int num2,int num,ArrayList<Food> menus) {
+        if (num2 == 1) {
+            System.out.println("\"" + menus.get(num-1).getName() + "(small)" + "\t" + menus.get(num-1).getPrice() + "\t" + menus.get(num-1).getExplanation() + "\"");
+        } else if (num2 == 2) {
+            System.out.println("\"" + menus.get(num-1).getName() + "(large)" + "\t" + (menus.get(num-1).getPrice() + 2000) + "\t" + menus.get(num-1).getExplanation() + "\"");
         } else {
             System.out.println("번호를 잘못입력했습니다.");
         }
@@ -73,7 +73,7 @@ public class ServiceText {
         System.out.println("현재까지 총 판매된 상품 목록은 아래와 같습니다.");
         double price = 0;
         for (OrderFood a : order.getOrderTotal()){
-            System.out.println(a.getName()+"\t"+a.getCount()+"개\t"+a.getRealPrice());
+            System.out.println(a.getName()+"\t"+a.getSize() +"\t"+a.getCount()+"개\t"+a.getRealPrice());
             price += a.getRealPrice();
         }
         System.out.println();
