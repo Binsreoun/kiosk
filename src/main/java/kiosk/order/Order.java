@@ -1,4 +1,4 @@
-package main.java.order;
+package main.java.kiosk.order;
 
 import java.util.ArrayList;
 

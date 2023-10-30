@@ -1,4 +1,4 @@
-package main.java.food;
+package main.java.kiosk.food;
 
 import java.util.ArrayList;
 

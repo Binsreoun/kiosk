@@ -1,4 +1,4 @@
-package test.java.food;
+package test.java.kiosk.food;
 
 import org.junit.jupiter.api.Test;
 

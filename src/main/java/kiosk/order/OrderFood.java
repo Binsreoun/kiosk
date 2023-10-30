@@ -1,6 +1,6 @@
-package main.java.order;
+package main.java.kiosk.order;
 
-import main.java.food.Menu;
+import main.java.kiosk.food.Menu;
 
 public class OrderFood extends Menu {
     private String size;

@@ -1,8 +1,6 @@
-package test.java.service;
+package test.java.kiosk.service;
 
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class ServiceTextTest {
 

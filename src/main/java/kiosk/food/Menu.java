@@ -1,4 +1,4 @@
-package main.java.food;
+package main.java.kiosk.food;
 
 public class Menu {
     private String name;

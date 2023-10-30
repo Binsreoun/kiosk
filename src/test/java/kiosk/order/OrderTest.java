@@ -1,8 +1,6 @@
-package test.java.order;
+package test.java.kiosk.order;
 
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class OrderTest {
 

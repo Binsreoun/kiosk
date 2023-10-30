@@ -1,8 +1,8 @@
-package main.java;
+package main.java.kiosk;
 
-import main.java.food.Title;
-import main.java.order.Order;
-import main.java.service.KioskService;
+import main.java.kiosk.food.Title;
+import main.java.kiosk.order.Order;
+import main.java.kiosk.service.KioskService;
 
 import java.util.ArrayList;
 
